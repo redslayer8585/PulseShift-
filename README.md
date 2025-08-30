@@ -27,9 +27,6 @@ PulseShift uses three key elements:
 ---
 
 
-
-![PulseShift Wiring Diagram](docs/
-
 ---
 
 ## Supported Voltage Systems
