@@ -22,9 +22,8 @@ PulseShift uses three key elements:
 
 3. **User Control / Indicator**  
    - A switch on the keep-alive line to engage/disengage PulseShift.  
-   - Optional 12V LED indicator to show keep-alive status.  
+   - Optional 12V LED indicator to show keep-alive status.  <img width="1024" height="1024" alt="1000002946" src="https://github.com/user-attachments/assets/cd4c63ce-c6f2-42ae-87ac-915fd17b9ac7" />
 
----
 
 
 ---
