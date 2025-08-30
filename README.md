@@ -1,91 +1,84 @@
-<img width="1024" height="1024" alt="1000002946" src="https://github.com/user-attachments/assets/67264c50-6b78-42a0-bbfc-b8ac504ce40e" />
+# PulseShift ⚡ — Single 40V Pack
 
+**PulseShift** is an open, non-invasive way to run a mobility/EV controller from a **single 40V tool battery** (≈36V nominal) while enabling:
+- A **High (Drive) path** via a buck/boost set just below the stock bus so it assists only under sag, protected by an **ideal-diode** (no backfeed).
+- A **Low (Keep-Alive) path** via a **40→12V converter** feeding a diode-isolated **supercap bank** + indicator, so the controller/aux rails stay alive during swaps.
 
-**PulseShift Technology**
-
-is an open-source power management system designed for safe **hot-swapping of tool batteries** in mobility scooters, e-bikes, and other small EVs.  
-By separating **drive power** from a **keep-alive circuit**, the controller stays powered while you swap batteries — avoiding resets, brownouts, or surges.  
-
-This allows users to extend range by swapping in fresh packs (e.g. DeWalt, Ryobi, Bauer, etc.) without shutting down the vehicle.
+No series-stacking required. Chemistry-agnostic because packs never “see” each other.
 
 ---
 
-## System Overview
+## Wiring Diagram
 
-PulseShift uses three key elements:
+[![PulseShift Wiring Diagram](docs/wiring-diagram.svg)](docs/wiring-diagram.svg)
 
-1. **Main Drive Path** (high current)  
-   - Feeds motor controller directly.  
-   - Isolated with **ideal diodes** to prevent backfeed between packs.  
-
-2. **Keep-Alive Path** (low current)  
-   - Powers controller logic & memory during swaps.  
-   - Uses a **buck/boost module** (20A recommended) to maintain stable voltage.  
-   - Backed by a **supercapacitor bank (12–16V)** to hold voltage briefly when packs are disconnected.  
-
-3. **User Control / Indicator**  
-   - A switch on the keep-alive line to engage/disengage PulseShift.  
-   - Optional 12V LED indicator to show keep-alive status. 
-
+**Legend**
+- 🔴 High Path (Drive) — 40V → Buck/Boost (DROK) → Ideal Diode → Controller +
+- 🔵 Low Path (Input) — 40V feed into 40→12V converter
+- 🟡 12V Keep-Alive Rail — switch → diode → supercaps → 12V indicator
+- ⚫ Common Ground — shared return, keep 12V isolated from HV rail
 
 ---
 
-## Supported Voltage Systems
+## How It Works (Bias Assist)
 
-PulseShift is **chemistry-agnostic**. Packs never interact directly — they are isolated by ideal diodes and only feed the system.  
+1. **Set the booster’s output just below the controller bus at rest.**  
+   - 36V systems: set **≈ 36.0–39.5 V**  
+   - 48V systems: **boost** to **≈ 48.5–52.5 V**  
+   The ideal-diode prevents backfeeding the 40V pack. Under load, when the stock bus sags below the set-point, the booster **automatically contributes current**.
 
-- **48V Systems**  
-  - Nominal input: 40–54V (e.g. 13S Li-ion)  
-  - Buck/boost module steps down to 12V keep-alive  
-
-- **36V Systems**  
-  - Nominal input: 30–42V (e.g. 10S Li-ion)  
-  - Buck/boost module steps down to 12V keep-alive  
-
-- **24V Systems**  
-  - Nominal input: 20–29V (e.g. 7S Li-ion or lead-acid replacement)  
-  - Buck/boost module steps down to 12V keep-alive  
-
-**Current Handling:**  
-- Drive path: match motor controller (typically 20–40A for scooters, up to 100A for larger EVs)  
-- Keep-alive path: <2A continuous (logic-level only)  
+2. **Keep-Alive stays 12 V only.**  
+   A “golf cart” 40→12 V reducer feeds a diode-isolated supercap bank to bridge swaps and power accessories/logic. The supercaps never see pack voltage.
 
 ---
 
-## Quick Start Guide
+## Quick Start
 
-1. **Assemble Modules**
-   - Install tool battery adapters.  
-   - Wire ideal diodes on each pack output to the drive bus.  
-   - Wire buck/boost + supercap bank to keep-alive circuit.  
+1. **Battery & adapter**
+   - Use a fused 40V tool-battery adapter (e.g., Power Wheels-style sled), correct polarity.
 
-2. **Install Switch & Indicator**
-   - Add a toggle on the 12V keep-alive line.  
-   - Wire LED indicator to show circuit activity.  
+2. **High Path (Drive)**
+   - 40V → **DROK buck/boost** → **ideal-diode ORing** → controller + bus.
+   - Set DROK OUT **just below** the bus voltage at rest (see above table).
 
-3. **Power Up**
-   - Turn on keep-alive first.  
-   - Insert battery pack. Confirm controller wakes.  
+3. **Low Path (Keep-Alive)**
+   - 40V → **40→12 V converter** → **switch** → **diode** → **12–16 V supercap bank** → 12V indicator/aux.
+   - This path powers logic/aux and holds the rail up during battery swaps.
 
-4. **Hot-Swap**
-   - Add new pack before removing the old.  
-   - Controller remains awake via keep-alive.  
+4. **Swap procedure**
+   - Flip **keep-alive switch OFF** → swap 40V battery → switch **ON** → ride.
+   - The diode + supercap keep the 12V rail alive while the pack is out.
 
 ---
 
-## Warnings ⚠️
+## Parameters & Requirements
 
-- 🔥 **High Current Risk**: Ensure all wiring, connectors, and diodes are rated above motor peak draw.  
-- ⚡ **Polarity Critical**: Reversing tool packs will damage the system. Double-check before plugging in.  
-- ❌ **Not a BMS**: Each battery must have its own onboard protection.  
-- 🔋 **Supercaps**: Never exceed rated voltage (typically 16V).  
-- 🛠️ **Prototype Use Only**: Not certified for commercial EV use.  
+- **Battery:** 40V tool pack (≈36V nominal). Smaller (18/20V max) packs will struggle here.
+- **Booster (High Path):** Buck/boost 6–70 V, ≥20 A (DROK w/ LCD recommended).  
+  Set ≈0.5–1.0 V **below** rest bus so it never charges the stock pack at idle.
+- **Ideal Diode:** Low Rds(on), sized above expected **peak** controller current.
+- **Low Path Converter:** 40→12 V reducer (often sold as “golf cart reducer”), ≥10–20 A if accessories are used.
+- **Supercaps:** 12–16 V rated, **on 12 V rail only**, through a diode (hold-up only).
+
+---
+
+## Safety & Warnings
+
+- 🔥 **High current/voltage:** Fuse both the 40V sled and the 12V rail. Use wiring/connectors rated above peak motor current.
+- ⚡ **Polarity critical:** Double-check before power-up. The ideal-diode only protects the high path from backfeed, not reverse polarity.
+- 🧯 **No cross-charging:** PulseShift isolates sources; do **not** attempt to charge packs through the bus.
+- 🔋 **Supercap caution:** Never exceed voltage rating; keep them **off** the high-voltage path.
+- 🛠️ Prototype project; build/use at your own risk.
+
+---
+
+## Notes on “Agnostic” Support
+
+PulseShift’s topology is chemistry-agnostic because sources don’t interact directly.  
+However, **this design expects a 40V pack** as the energy source. Smaller 18/20V-max drill packs are under-spec’d for this build and will sag or over-stress the booster.
 
 ---
 
 ## License
 
-This project is released under the **GNU General Public License v3.0 (GPL-3.0)**.  
-You are free to use, modify, and distribute this project under the same license.  
-
-See [LICENSE](LICENSE) for full details.
+GPL-3.0 — open, remixable, and protected for the community. See [LICENSE](LICENSE).
