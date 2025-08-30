@@ -1,7 +1,8 @@
 <img width="1024" height="1024" alt="1000002946" src="https://github.com/user-attachments/assets/67264c50-6b78-42a0-bbfc-b8ac504ce40e" />
 
 
-**PulseShift** 
+**PulseShift Technology**
+
 is an open-source power management system designed for safe **hot-swapping of tool batteries** in mobility scooters, e-bikes, and other small EVs.  
 By separating **drive power** from a **keep-alive circuit**, the controller stays powered while you swap batteries — avoiding resets, brownouts, or surges.  
 
