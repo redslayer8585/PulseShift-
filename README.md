@@ -50,10 +50,3 @@ You are free to use, modify, and share as long as modifications remain open-sour
 Contributions, suggestions, and discussions are welcome!  
 Open an Issue or Pull Request to share improvements, ideas, or questions.
 
----
-
-## 🌱 Roadmap
-- [ ] Upload first schematic diagram  
-- [ ] Post reference build photos  
-- [ ] Add implementation guide for 24V & 36V systems  
-- [ ] Expand documentation for advanced features (multi-pack balancing, solar assist)
