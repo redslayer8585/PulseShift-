@@ -68,10 +68,38 @@ No series-stacking required. Chemistry-agnostic because packs never “see” ea
 ## Notes on “Agnostic” Support
 
 PulseShift’s topology is chemistry-agnostic because sources don’t interact directly.  
-However, **this design expects a 40V pack** as the energy source. Smaller 18/20V-max drill packs are under-spec’d for this build and will sag or over-stress the booster.
+However, **this design expects a 40V pack** as the energy source. Smaller 18/20V-max drill packs are under-spec’d for this build and will sag or over-stress the # ⚡ PulseShift Wiring Diagram
+
+A clear view of how PulseShift routes a single **40V lithium pack** into two distinct paths:  
+🔴 **High Voltage Drive** for the motor controller, and  
+🟡 **Low Voltage Keep-Alive** for 12V systems.
+
+---
+
+## 📊 System Layout
+
+```text
+              🔋 40V Lithium Pack
+                       │
+          ┌────────────┴────────────┐
+          │                         │
+   🔴 High Path (Drive)       🟡 Low Path (Keep-Alive)
+          │                         │
+     [Buck/Boost]            [40V → 12V Converter]
+          │                         │
+     [Ideal Diode]                  │
+          │                         │
+     [Controller +]         [Switch] → [Diode] → [Supercaps] → 💡 [12V Indicator]
+          │
+     [Controller Bus]
+
+                  ⚫ Common Ground (shared).
 
 ---
 
 ## License
 
 GPL-3.0 — open, remixable, and protected for the community. See [LICENSE](LICENSE).
+
+
+
