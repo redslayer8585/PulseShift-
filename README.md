@@ -1,3 +1,5 @@
+<img width="1024" height="1024" alt="1000002946" src="https://github.com/user-attachments/assets/cc6244fe-563f-46c8-84c0-43e4a6bf1659" />
+
 # PulseShift ⚡ — Single 40V Pack
 
 **PulseShift** is an open, non-invasive way to run a mobility/EV controller from a **single 40V tool battery** (≈36V nominal) while enabling:
