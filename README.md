@@ -1,40 +1,93 @@
 # PulseShift Technology
 
-**PulseShift** is an open-source power system for **safe hot-swapping** of tool batteries in scooters, e-bikes, and light EVs.  
-It separates **drive power** from a **keep-alive circuit**, ensuring the controller stays powered during swaps — no brownouts or reboot.
+**PulseShift** is an open-source power management system designed for safe **hot-swapping of tool batteries** in mobility scooters, e-bikes, and other small EVs.  
+By separating **drive power** from a **keep-alive circuit**, the controller stays powered while you swap batteries — avoiding resets, brownouts, or surges.  
+
+This allows users to extend range by swapping in fresh packs (e.g. DeWalt, Ryobi, Bauer, etc.) without shutting down the vehicle.
+
+---
+
+## System Overview
+
+PulseShift uses three key elements:
+
+1. **Main Drive Path** (high current)  
+   - Feeds motor controller directly.  
+   - Isolated with **ideal diodes** to prevent backfeed between packs.  
+
+2. **Keep-Alive Path** (low current)  
+   - Powers controller logic & memory during swaps.  
+   - Uses a **buck/boost module** (20A recommended) to maintain stable voltage.  
+   - Backed by a **supercapacitor bank (12–16V)** to hold voltage briefly when packs are disconnected.  
+
+3. **User Control / Indicator**  
+   - A switch on the keep-alive line to engage/disengage PulseShift.  
+   - Optional 12V LED indicator to show keep-alive status.  
 
 ---
 
 
-## Quick Start
 
-1. **Install tool battery adapter and fuse.**  
-2. **Wire main drive via ideal-diode to the booster → controller +.**  
-3. **Setup keep-alive rail**: pack → buck/boost to 12V → diode → supercap → booster IN+.  
-4. **Turn on keep-alive**, then insert battery pack — controller should stay powered.  
-5. **Hot-swap**: Insert new pack before removing the old; logic stays alive via supercap.
+![PulseShift Wiring Diagram](docs/
 
 ---
 
-## Compatibility & Parameters
+## Supported Voltage Systems
 
-PulseShift works for **24V, 36V, and 48V systems** using Li-ion or comparable tool packs.  
-- Use a **20 A+ booster** with adjustable CV/CC.  
-- Set booster output ~0.5–1 V below the stock pack’s rest voltage.  
-- Keep the supercap on the 12V rail only.
+PulseShift is **chemistry-agnostic**. Packs never interact directly — they are isolated by ideal diodes and only feed the system.  
+
+- **48V Systems**  
+  - Nominal input: 40–54V (e.g. 13S Li-ion)  
+  - Buck/boost module steps down to 12V keep-alive  
+
+- **36V Systems**  
+  - Nominal input: 30–42V (e.g. 10S Li-ion)  
+  - Buck/boost module steps down to 12V keep-alive  
+
+- **24V Systems**  
+  - Nominal input: 20–29V (e.g. 7S Li-ion or lead-acid replacement)  
+  - Buck/boost module steps down to 12V keep-alive  
+
+**Current Handling:**  
+- Drive path: match motor controller (typically 20–40A for scooters, up to 100A for larger EVs)  
+- Keep-alive path: <2A continuous (logic-level only)  
 
 ---
 
-## Warnings & Safety
+## Quick Start Guide
 
-- **Risk of fire/injury** — double-check polarity and fuse every line.  
-- Use components rated **higher than your peak current**.  
-- Each pack must include its own BMS.  
-- **Supercap must never connect to the high-voltage bus.**
+1. **Assemble Modules**
+   - Install tool battery adapters.  
+   - Wire ideal diodes on each pack output to the drive bus.  
+   - Wire buck/boost + supercap bank to keep-alive circuit.  
+
+2. **Install Switch & Indicator**
+   - Add a toggle on the 12V keep-alive line.  
+   - Wire LED indicator to show circuit activity.  
+
+3. **Power Up**
+   - Turn on keep-alive first.  
+   - Insert battery pack. Confirm controller wakes.  
+
+4. **Hot-Swap**
+   - Add new pack before removing the old.  
+   - Controller remains awake via keep-alive.  
+
+---
+
+## Warnings ⚠️
+
+- 🔥 **High Current Risk**: Ensure all wiring, connectors, and diodes are rated above motor peak draw.  
+- ⚡ **Polarity Critical**: Reversing tool packs will damage the system. Double-check before plugging in.  
+- ❌ **Not a BMS**: Each battery must have its own onboard protection.  
+- 🔋 **Supercaps**: Never exceed rated voltage (typically 16V).  
+- 🛠️ **Prototype Use Only**: Not certified for commercial EV use.  
 
 ---
 
 ## License
 
-GPL-3.0 — This project is free to use and modify under the same terms.  
-See [LICENSE](LICENSE) for the full text.
+This project is released under the **GNU General Public License v3.0 (GPL-3.0)**.  
+You are free to use, modify, and distribute this project under the same license.  
+
+See [LICENSE](LICENSE) for full details.
