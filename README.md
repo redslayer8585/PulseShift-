@@ -5,17 +5,6 @@ It separates **drive power** from a **keep-alive circuit**, ensuring the control
 
 ---
 
-## Wiring Diagram
-
-[![PulseShift Wiring Diagram](docs/wiring-diagram.svg)](docs/wiring-diagram.svg)
-
-**Legend:**
-- 🔴 **Red** = Main Drive Path (~pack voltage to motor/controller)  
-- 🔵 **Blue** = Keep-Alive Path (regulated 12V logic)  
-- ⚫ **Black** = Common Ground (tie all negatives)  
-- 🟢 **Green** = Optional control/indicator lines
-
----
 
 ## Quick Start
 
