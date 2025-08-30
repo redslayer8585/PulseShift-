@@ -10,17 +10,8 @@ No series-stacking required. Chemistry-agnostic because packs never “see” ea
 
 ---
 
-## Wiring Diagram
 
-[![PulseShift Wiring Diagram](docs/wiring-diagram.svg)](docs/wiring-diagram.svg)
 
-**Legend**
-- 🔴 High Path (Drive) — 40V → Buck/Boost (DROK) → Ideal Diode → Controller +
-- 🔵 Low Path (Input) — 40V feed into 40→12V converter
-- 🟡 12V Keep-Alive Rail — switch → diode → supercaps → 12V indicator
-- ⚫ Common Ground — shared return, keep 12V isolated from HV rail
-
----
 
 ## How It Works (Bias Assist)
 
