@@ -1,52 +1,51 @@
-# PulseShift-
-Open-source power management method for safely hot-swapping batteries in mobility and light EV applications. PulseShift isolates keep-alive circuits and drive power paths to extend runtime using common tool batteries.
-# PulseShift ⚡
+# PulseShift Technology
 
-PulseShift is an open-source power management method that enables **safe hot-swapping of tool batteries** for mobility scooters, e-bikes, and other light electric vehicles. By separating the **keep-alive low-power circuits** from the **main drive circuits**, PulseShift allows riders to extend range without shutting down the controller or electronics.
-
----
-
-## 🚀 Why PulseShift?
-- **Continuous Power**: Swap batteries without rebooting the system.
-- **Modular Design**: Works with common tool-style battery packs (DeWalt, Makita, etc.).
-- **Safety First**: Uses controlled pathways to prevent arcing, surges, or brownouts.
-- **Scalable**: Can be applied to scooters, bikes, lawn equipment, and beyond.
+**PulseShift** is an open-source power system for **safe hot-swapping** of tool batteries in scooters, e-bikes, and light EVs.  
+It separates **drive power** from a **keep-alive circuit**, ensuring the controller stays powered during swaps — no brownouts or reboot.
 
 ---
 
-## 🔧 How It Works
-PulseShift uses a **dual-path approach**:
-1. **Keep-Alive Path** – a small, isolated supply powers the controller and electronics.  
-2. **Drive Path** – the main power path feeds motors, lights, and heavy loads.  
+## Wiring Diagram
 
-When a battery is removed, the keep-alive path stays active, so the system never resets.  
-When a new pack is connected, the drive path re-engages seamlessly.
+[![PulseShift Wiring Diagram](docs/wiring-diagram.svg)](docs/wiring-diagram.svg)
 
----
-
-## 📂 Repository Contents
-- `README.md` — project overview (this file)  
-- `docs/` — technical diagrams, notes, and schematics (to be added)  
-- `examples/` — implementation notes and test builds (to be added)  
+**Legend:**
+- 🔴 **Red** = Main Drive Path (~pack voltage to motor/controller)  
+- 🔵 **Blue** = Keep-Alive Path (regulated 12V logic)  
+- ⚫ **Black** = Common Ground (tie all negatives)  
+- 🟢 **Green** = Optional control/indicator lines
 
 ---
 
-## 🛠️ Applications
-- Mobility scooters  
-- E-bikes  
-- Power wheels conversions  
-- Portable power systems  
-- Lawn & garden equipment  
+## Quick Start
+
+1. **Install tool battery adapter and fuse.**  
+2. **Wire main drive via ideal-diode to the booster → controller +.**  
+3. **Setup keep-alive rail**: pack → buck/boost to 12V → diode → supercap → booster IN+.  
+4. **Turn on keep-alive**, then insert battery pack — controller should stay powered.  
+5. **Hot-swap**: Insert new pack before removing the old; logic stays alive via supercap.
 
 ---
 
-## 📜 License
-This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.  
-You are free to use, modify, and share as long as modifications remain open-source.
+## Compatibility & Parameters
+
+PulseShift works for **24V, 36V, and 48V systems** using Li-ion or comparable tool packs.  
+- Use a **20 A+ booster** with adjustable CV/CC.  
+- Set booster output ~0.5–1 V below the stock pack’s rest voltage.  
+- Keep the supercap on the 12V rail only.
 
 ---
 
-## 🤝 Contributing
-Contributions, suggestions, and discussions are welcome!  
-Open an Issue or Pull Request to share improvements, ideas, or questions.
+## Warnings & Safety
 
+- **Risk of fire/injury** — double-check polarity and fuse every line.  
+- Use components rated **higher than your peak current**.  
+- Each pack must include its own BMS.  
+- **Supercap must never connect to the high-voltage bus.**
+
+---
+
+## License
+
+GPL-3.0 — This project is free to use and modify under the same terms.  
+See [LICENSE](LICENSE) for the full text.
