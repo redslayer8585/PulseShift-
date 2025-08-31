@@ -1,8 +1,6 @@
 # PulseShift
+![1000002996](https://github.com/user-attachments/assets/58b5ee72-980e-46b7-9ede-4695939550a3)
 
-<p align="center">
-  <img src="assets/logo.png" alt="PulseShift Logo" width="300"/>
-</p>
 
 ### *Liberating Energy*
 
@@ -26,9 +24,6 @@ Think of it as the **Robin Hood of power systems**:
 - A **power diode** isolates the paths, ensuring the main battery is always primary.  
 - When the stock pack sags, PulseShift seamlessly supplies supplemental current.  
 
-<p align="center">
-  <img src="assets/diagram.png" alt="PulseShift Diagram" width="500"/>
-</p>
 
 ---
 
